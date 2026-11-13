@@ -1,1 +1,15 @@
+# Dependencies
 node_modules/
+
+# Build output (kalau pakai bundler seperti Vite/Webpack)
+dist/
+build/
+
+# Environment variables (penting biar API key/password gak bocor)
+.env
+.env.local
+
+# File sampah OS & Editor
+.DS_Store
+Thumbs.db
+.vscode/
