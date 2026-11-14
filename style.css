@@ -9,14 +9,13 @@
 html, body {
   width: 100%;
   height: 100%;
-  background: transparent; /* Crucial for OBS transparency */
+  background: transparent;
   overflow: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-/* Allows clicking and dragging anywhere on the avatar to move the window */
 .drag-region {
   position: fixed;
   inset: 0;
@@ -31,8 +30,18 @@ html, body {
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: transform 0.05s ease-out;
+  transition: transform 0.06s ease-out;
   pointer-events: none;
+}
+
+/* Gentle breathing/dozing motion when asleep */
+.sprite-stage.sleeping {
+  animation: sleepBreathe 3.5s ease-in-out infinite;
+}
+
+@keyframes sleepBreathe {
+  0%, 100% { transform: scale(1) translateY(0px); }
+  50% { transform: scale(0.97) translateY(4px); }
 }
 
 .sprite-svg, .sprite-img {
@@ -41,21 +50,57 @@ html, body {
   height: 100%;
   object-fit: contain;
   opacity: 0;
-  transition: opacity 0.08s ease;
+  transition: opacity 0.06s ease;
 }
 
 .sprite-svg.active, .sprite-img.active {
   opacity: 1;
 }
 
-/* Gear icon appears only when hovering over the window */
+/* Pupil transition for smooth eye-rolling / glancing */
+.pupils {
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Floating Zzz Animation */
+.sleep-zzz {
+  position: absolute;
+  top: 5%;
+  right: 12%;
+  z-index: 5;
+  font-weight: 800;
+  color: #93c5fd;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+  display: flex;
+  gap: 2px;
+}
+
+.sleep-zzz.hidden {
+  display: none;
+}
+
+.sleep-zzz span {
+  display: inline-block;
+  animation: floatZ 2.4s ease-in-out infinite;
+}
+
+.sleep-zzz span:nth-child(1) { font-size: 1rem; animation-delay: 0s; }
+.sleep-zzz span:nth-child(2) { font-size: 1.4rem; animation-delay: 0.4s; }
+.sleep-zzz span:nth-child(3) { font-size: 1.8rem; animation-delay: 0.8s; }
+
+@keyframes floatZ {
+  0%, 100% { transform: translateY(0px) rotate(-6deg); opacity: 0.4; }
+  50% { transform: translateY(-10px) rotate(6deg); opacity: 1; }
+}
+
+/* Hover Gear Button */
 .hover-btn {
   position: fixed;
   top: 10px;
   right: 10px;
   z-index: 10;
   -webkit-app-region: no-drag;
-  background: rgba(15, 23, 42, 0.8);
+  background: rgba(15, 23, 42, 0.85);
   border: 1px solid rgba(255, 255, 255, 0.2);
   color: white;
   border-radius: 50%;
@@ -73,18 +118,19 @@ body:hover .hover-btn {
 /* Floating Settings Drawer */
 .settings-panel {
   position: fixed;
-  inset: 12px;
+  inset: 10px;
   z-index: 20;
   -webkit-app-region: no-drag;
-  background: rgba(15, 23, 42, 0.95);
+  background: rgba(15, 23, 42, 0.96);
   color: #f8fafc;
   border-radius: 12px;
-  padding: 14px;
+  padding: 12px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  font-size: 0.8rem;
+  gap: 6px;
+  font-size: 0.78rem;
   border: 1px solid #334155;
+  overflow-y: auto;
 }
 
 .settings-panel.hidden {
@@ -107,12 +153,29 @@ body:hover .hover-btn {
   cursor: pointer;
 }
 
+.select-label {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+select {
+  width: 100%;
+  background: #1e293b;
+  color: #f8fafc;
+  border: 1px solid #475569;
+  border-radius: 6px;
+  padding: 4px 6px;
+  font-size: 0.75rem;
+}
+
 .meter-bar {
   width: 100%;
-  height: 8px;
+  height: 7px;
   background: #334155;
   border-radius: 4px;
   overflow: hidden;
+  flex-shrink: 0;
 }
 
 .meter-fill {
@@ -130,16 +193,26 @@ input[type="range"] {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 4px;
-  margin-top: 4px;
+  margin-top: 2px;
 }
 
 .file-btn {
   background: #334155;
-  padding: 6px 4px;
+  color: #f8fafc;
+  border: none;
+  padding: 5px 4px;
   border-radius: 6px;
   text-align: center;
   cursor: pointer;
-  font-size: 0.72rem;
+  font-size: 0.7rem;
+}
+
+.file-btn:hover {
+  background: #475569;
+}
+
+.reset-btn {
+  background: #7f1d1d;
 }
 
 .file-btn input {

@@ -11,16 +11,40 @@
 
   <!-- Sprite Stage -->
   <div class="sprite-stage" id="sprite-stage">
-    <!-- Default SVG Sprites -->
+    <!-- Floating Zzz for Sleepy State -->
+    <div id="sleep-zzz" class="sleep-zzz hidden">
+      <span>z</span><span>Z</span><span>z</span>
+    </div>
+
+    <!-- Default SVG: Idle (with movable pupils for eye-roll) -->
     <svg id="sprite-idle" class="sprite-svg active" viewBox="0 0 200 200">
       <circle cx="100" cy="100" r="80" fill="#4a5568" />
-      <circle cx="70" cy="85" r="10" fill="#ffffff" />
-      <circle cx="130" cy="85" r="10" fill="#ffffff" />
-      <circle cx="70" cy="85" r="4" fill="#1a202c" />
-      <circle cx="130" cy="85" r="4" fill="#1a202c" />
+      <circle cx="70" cy="85" r="11" fill="#ffffff" />
+      <circle cx="130" cy="85" r="11" fill="#ffffff" />
+      <g class="pupils">
+        <circle cx="70" cy="85" r="4.5" fill="#1a202c" />
+        <circle cx="130" cy="85" r="4.5" fill="#1a202c" />
+      </g>
       <path d="M 75 130 Q 100 135 125 130" stroke="#ffffff" stroke-width="6" stroke-linecap="round" fill="none" />
     </svg>
 
+    <!-- Default SVG: Blink -->
+    <svg id="sprite-blink" class="sprite-svg" viewBox="0 0 200 200">
+      <circle cx="100" cy="100" r="80" fill="#4a5568" />
+      <path d="M 58 85 Q 70 93 82 85" stroke="#ffffff" stroke-width="5" stroke-linecap="round" fill="none" />
+      <path d="M 118 85 Q 130 93 142 85" stroke="#ffffff" stroke-width="5" stroke-linecap="round" fill="none" />
+      <path d="M 75 130 Q 100 135 125 130" stroke="#ffffff" stroke-width="6" stroke-linecap="round" fill="none" />
+    </svg>
+
+    <!-- Default SVG: Sleepy -->
+    <svg id="sprite-sleep" class="sprite-svg" viewBox="0 0 200 200">
+      <circle cx="100" cy="100" r="80" fill="#334155" />
+      <path d="M 58 88 Q 70 96 82 88" stroke="#cbd5e1" stroke-width="4" stroke-linecap="round" fill="none" />
+      <path d="M 118 88 Q 130 96 142 88" stroke="#cbd5e1" stroke-width="4" stroke-linecap="round" fill="none" />
+      <circle cx="100" cy="132" r="8" fill="#cbd5e1" />
+    </svg>
+
+    <!-- Default SVG: Talk -->
     <svg id="sprite-talk" class="sprite-svg" viewBox="0 0 200 200">
       <circle cx="100" cy="100" r="80" fill="#3182ce" />
       <circle cx="70" cy="80" r="12" fill="#ffffff" />
@@ -30,6 +54,7 @@
       <ellipse cx="100" cy="130" rx="20" ry="15" fill="#ffffff" />
     </svg>
 
+    <!-- Default SVG: Loud -->
     <svg id="sprite-loud" class="sprite-svg" viewBox="0 0 200 200">
       <circle cx="100" cy="100" r="85" fill="#e53e3e" />
       <circle cx="70" cy="75" r="14" fill="#ffffff" />
@@ -41,6 +66,8 @@
 
     <!-- Custom Sprites -->
     <img id="img-idle" class="sprite-img" alt="Idle" />
+    <img id="img-blink" class="sprite-img" alt="Blink" />
+    <img id="img-sleep" class="sprite-img" alt="Sleep" />
     <img id="img-talk" class="sprite-img" alt="Talk" />
     <img id="img-loud" class="sprite-img" alt="Loud" />
   </div>
@@ -54,6 +81,12 @@
       <span>Avatar Controls</span>
       <button id="close-app" class="close-btn" title="Quit App">✕</button>
     </div>
+
+    <!-- Microphone Selector -->
+    <label class="select-label">
+      Microphone:
+      <select id="mic-select"></select>
+    </label>
 
     <div class="meter-bar">
       <div id="volume-level" class="meter-fill"></div>
@@ -71,10 +104,17 @@
       <input type="range" id="loud-thresh" min="30" max="100" step="1" value="50" />
     </label>
 
+    <label>Sleep Delay: <span id="val-sleep">15</span>s
+      <input type="range" id="sleep-delay" min="5" max="120" step="5" value="15" />
+    </label>
+
     <div class="uploads">
-      <label class="file-btn">Idle PNG <input type="file" id="upload-idle" accept="image/*" /></label>
-      <label class="file-btn">Talk PNG <input type="file" id="upload-talk" accept="image/*" /></label>
-      <label class="file-btn">Loud PNG <input type="file" id="upload-loud" accept="image/*" /></label>
+      <label class="file-btn">Idle <input type="file" id="upload-idle" accept="image/*" /></label>
+      <label class="file-btn">Blink <input type="file" id="upload-blink" accept="image/*" /></label>
+      <label class="file-btn">Sleep <input type="file" id="upload-sleep" accept="image/*" /></label>
+      <label class="file-btn">Talk <input type="file" id="upload-talk" accept="image/*" /></label>
+      <label class="file-btn">Loud <input type="file" id="upload-loud" accept="image/*" /></label>
+      <button id="reset-sprites" class="file-btn reset-btn" type="button">Reset</button>
     </div>
   </div>
 
